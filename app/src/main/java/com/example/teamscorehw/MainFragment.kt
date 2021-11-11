@@ -13,7 +13,6 @@ class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding
-
     private val viewModel: ViewModelMain by viewModels()
 
 
@@ -27,27 +26,20 @@ class MainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        updateScoreTextView()
         binding?.buttonAdd1?.setOnClickListener {
             viewModel.addOne()
-            updateScoreTextView()
 
         }
         binding?.buttonAdd4?.setOnClickListener {
             viewModel.addFour()
-            updateScoreTextView()
+
 
         }
         binding?.buttonSub2?.setOnClickListener {
             viewModel.subTwo()
-            updateScoreTextView()
 
         }
-
-    }
-
-    private fun updateScoreTextView() {
-        binding?.textViewDisplay?.text = viewModel.score.toString()
+        updateScoreTextView()
 
     }
 
@@ -56,4 +48,13 @@ class MainFragment : Fragment() {
         _binding = null
     }
 
+    /**
+     * function to update the TextView with new score
+     *
+     */
+    private fun updateScoreTextView() {
+        viewModel.score.observe(viewLifecycleOwner, { binding?.textViewDisplay?.text = it.toString() })
+
+
+    }
 }
